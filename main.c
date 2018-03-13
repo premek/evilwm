@@ -322,7 +322,7 @@ static void setup_display(void) {
 		}
 #endif
 #ifdef VWM
-		screens[i].vdesk = KEY_TO_VDESK(XK_1);
+		screens[i].vdesk = KEY_TO_VDESK(KEY_DESK1);
 #endif
 
 		XAllocNamedColor(dpy, DefaultColormap(dpy, i), opt_fg, &screens[i].fg, &dummy);

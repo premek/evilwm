@@ -50,8 +50,8 @@ static void handle_key_event(XKeyEvent *e) {
 			set_docks_visible(current_screen, !current_screen->docks_visible);
 			break;
 #ifdef VWM
-		case XK_1: case XK_2: case XK_3: case XK_4:
-		case XK_5: case XK_6: case XK_7: case XK_8:
+		case KEY_DESK1: case KEY_DESK2: case KEY_DESK3: case KEY_DESK4: case KEY_DESK5:
+		case KEY_DESK6: case KEY_DESK7: case KEY_DESK8: case KEY_DESK9: case KEY_DESK0:
 			switch_vdesk(current_screen, KEY_TO_VDESK(key));
 			break;
 		case KEY_PREVDESK:
@@ -163,8 +163,7 @@ move_client:
 		c->y = 0;
 	moveresize(c);
 #ifdef WARP_POINTER
-	setmouse(c->window, c->width + c->border - 1,
-			c->height + c->border - 1);
+	setmouse(c);
 #endif
 	discard_enter_events(c);
 	return;

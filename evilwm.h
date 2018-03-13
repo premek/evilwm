@@ -57,8 +57,19 @@ typedef struct {
 
 #define VDESK_NONE  (0xfffffffe)
 #define VDESK_FIXED (0xffffffff)
-#define VDESK_MAX   (7)
-#define KEY_TO_VDESK(key) ((key) - XK_1)
+#define VDESK_MAX   (9)
+#define KEY_TO_VDESK(key) (\
+		key==KEY_DESK1 ? 0 : \
+		key==KEY_DESK2 ? 1 : \
+		key==KEY_DESK3 ? 2 : \
+		key==KEY_DESK4 ? 3 : \
+		key==KEY_DESK5 ? 4 : \
+		key==KEY_DESK6 ? 5 : \
+		key==KEY_DESK7 ? 6 : \
+		key==KEY_DESK8 ? 7 : \
+		key==KEY_DESK9 ? 8 : \
+		key==KEY_DESK0 ? 9 : \
+		9 )
 #define valid_vdesk(v) ((v) == VDESK_FIXED || (v) <= VDESK_MAX)
 
 #define RAISE           1
@@ -99,7 +110,9 @@ typedef struct {
 		            ButtonMask, GrabModeAsync, GrabModeSync, \
 		            None, None); \
 	} while (0)
-#define setmouse(w, x, y) XWarpPointer(dpy, None, w, 0, 0, 0, 0, x, y)
+#define setmouse(c) XWarpPointer(dpy, None, c->window, 0, 0, 0, 0, \
+		c->width + c->border - 5, \
+		c->height + c->border - 5)
 #define get_mouse_position(xp,yp,root) do { \
 		Window dw; \
 		int di; \

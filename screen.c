@@ -127,7 +127,7 @@ void sweep(Client *c) {
 	XGrabServer(dpy);
 	draw_outline(c);
 
-	setmouse(c->window, c->width, c->height);
+	setmouse(c);
 	for (;;) {
 		XMaskEvent(dpy, MouseMask, &ev);
 		switch (ev.type) {
@@ -429,8 +429,7 @@ void next(void) {
 	client_raise(newc);
 	select_client(newc);
 #ifdef WARP_POINTER
-	setmouse(newc->window, newc->width + newc->border - 1,
-			newc->height + newc->border - 1);
+	setmouse(newc);
 #endif
 	discard_enter_events(newc);
 }
@@ -537,7 +536,8 @@ static void grab_keysym(Window w, unsigned int mask, KeySym keysym) {
 static KeySym keys_to_grab[] = {
 #ifdef VWM
 	KEY_FIX, KEY_PREVDESK, KEY_NEXTDESK, KEY_TOGGLEDESK,
-	XK_1, XK_2, XK_3, XK_4, XK_5, XK_6, XK_7, XK_8,
+	KEY_DESK1, KEY_DESK2, KEY_DESK3, KEY_DESK4, KEY_DESK5, 
+	KEY_DESK6, KEY_DESK7, KEY_DESK8, KEY_DESK9, KEY_DESK0,
 #endif
 	KEY_NEW, KEY_KILL,
 	KEY_TOPLEFT, KEY_TOPRIGHT, KEY_BOTTOMLEFT, KEY_BOTTOMRIGHT,
