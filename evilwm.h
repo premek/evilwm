@@ -110,9 +110,7 @@ typedef struct {
 		            ButtonMask, GrabModeAsync, GrabModeSync, \
 		            None, None); \
 	} while (0)
-#define setmouse(c) XWarpPointer(dpy, None, c->window, 0, 0, 0, 0, \
-		c->width + c->border - 5, \
-		c->height + c->border - 5)
+#define setmouse(w, x, y) XWarpPointer(dpy, None, w, 0, 0, 0, 0, x, y)
 #define get_mouse_position(xp,yp,root) do { \
 		Window dw; \
 		int di; \

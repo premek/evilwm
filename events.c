@@ -163,7 +163,8 @@ move_client:
 		c->y = 0;
 	moveresize(c);
 #ifdef WARP_POINTER
-	setmouse(c);
+	setmouse(c->window, c->width + c->border - 1,
+			c->height + c->border - 1);
 #endif
 	discard_enter_events(c);
 	return;
@@ -176,6 +177,7 @@ static void handle_button_event(XButtonEvent *e) {
 		switch (e->button) {
 			case Button1:
 				drag(c); break;
+			case Button2:
 			case Button3:
 				sweep(c); break;
 			case Button4:

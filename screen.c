@@ -127,7 +127,7 @@ void sweep(Client *c) {
 	XGrabServer(dpy);
 	draw_outline(c);
 
-	setmouse(c);
+	setmouse(c->window, c->width, c->height);
 	for (;;) {
 		XMaskEvent(dpy, MouseMask, &ev);
 		switch (ev.type) {
@@ -429,7 +429,8 @@ void next(void) {
 	client_raise(newc);
 	select_client(newc);
 #ifdef WARP_POINTER
-	setmouse(newc);
+	setmouse(newc->window, newc->width + newc->border - 1,
+			newc->height + newc->border - 1);
 #endif
 	discard_enter_events(newc);
 }

@@ -164,7 +164,8 @@ void make_new_client(Window w, ScreenInfo *s) {
 		if (!(window_type & (EWMH_WINDOW_TYPE_DOCK|EWMH_WINDOW_TYPE_NOTIFICATION))) {
 			select_client(c);
 #ifdef WARP_POINTER
-			setmouse(c);
+			setmouse(c->window, c->width + c->border - 1,
+					c->height + c->border - 1);
 #endif
 			discard_enter_events(c);
 		}
