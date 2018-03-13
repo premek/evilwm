@@ -120,7 +120,7 @@ void sweep(Client *c) {
 
 	if (!grab_pointer(c->screen->root, MouseMask, resize_curs)) return;
 
-	client_raise(c);
+	//client_raise(c);
 #ifdef INFOBANNER_MOVERESIZE
 	create_info_window(c);
 #endif
@@ -279,7 +279,7 @@ void drag(Client *c) {
 	int old_cy = c->y;
 
 	if (!grab_pointer(c->screen->root, MouseMask, move_curs)) return;
-	client_raise(c);
+	//client_raise(c);
 	get_mouse_position(&x1, &y1, c->screen->root);
 #ifdef INFOBANNER_MOVERESIZE
 	create_info_window(c);
@@ -336,7 +336,7 @@ void drag(Client *c) {
 }
 
 void moveresize(Client *c) {
-	client_raise(c);
+	//client_raise(c);
 	XMoveResizeWindow(dpy, c->parent, c->x - c->border, c->y - c->border,
 			c->width, c->height);
 	XMoveResizeWindow(dpy, c->window, 0, 0, c->width, c->height);
