@@ -306,6 +306,7 @@ void show_info(Client *c, unsigned int keycode);
 void sweep(Client *c);
 void next(void);
 #ifdef VWM
+void send_to_vdesk(Client *c, int nextprev);
 void switch_vdesk(ScreenInfo *s, unsigned int v);
 #endif
 void set_docks_visible(ScreenInfo *s, int is_visible);

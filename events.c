@@ -26,6 +26,7 @@ const char *debug_atom_name(Atom a) {
 static void handle_key_event(XKeyEvent *e) {
 	KeySym key = XkbKeycodeToKeysym(dpy, e->keycode, 0, 0);
 	Client *c;
+	c = current;
 	int width_inc, height_inc;
 	ScreenInfo *current_screen = find_current_screen();
 
@@ -52,18 +53,32 @@ static void handle_key_event(XKeyEvent *e) {
 #ifdef VWM
 		case KEY_DESK1: case KEY_DESK2: case KEY_DESK3: case KEY_DESK4: case KEY_DESK5:
 		case KEY_DESK6: case KEY_DESK7: case KEY_DESK8: case KEY_DESK9: case KEY_DESK0:
-			switch_vdesk(current_screen, KEY_TO_VDESK(key));
+			if (e->state & altmask) {
+				if (c != NULL) {
+					send_to_vdesk(c, KEY_TO_VDESK(key));
+				}
+			} else {
+				switch_vdesk(current_screen, KEY_TO_VDESK(key));
+			}
 			break;
 		case KEY_PREVDESK:
 			if (current_screen->vdesk > 0) {
-				switch_vdesk(current_screen,
-						current_screen->vdesk - 1);
+				if (e->state & altmask) {
+					if (c == NULL) return;
+					send_to_vdesk(c, current_screen->vdesk - 1);
+				} else {
+					switch_vdesk(current_screen, current_screen->vdesk - 1);
+				}
 			}
 			break;
 		case KEY_NEXTDESK:
 			if (current_screen->vdesk < VDESK_MAX) {
-				switch_vdesk(current_screen,
-						current_screen->vdesk + 1);
+				if (e->state & altmask) {
+					if (c == NULL) return;
+					send_to_vdesk(c, current_screen->vdesk + 1);
+				} else {
+					switch_vdesk(current_screen, current_screen->vdesk + 1);
+				}
 			}
 			break;
 		case KEY_TOGGLEDESK:
@@ -72,7 +87,6 @@ static void handle_key_event(XKeyEvent *e) {
 #endif
 		default: break;
 	}
-	c = current;
 	if (c == NULL) return;
 	width_inc = (c->width_inc > 1) ? c->width_inc : 16;
 	height_inc = (c->height_inc > 1) ? c->height_inc : 16;

@@ -474,6 +474,17 @@ void switch_vdesk(ScreenInfo *s, unsigned int v) {
 }
 #endif /* def VWM */
 
+#ifdef VWM
+void send_to_vdesk(Client *c, int desk){
+	int wasnotfixed = !is_fixed(c);
+	ScreenInfo *current_screen = find_current_screen();
+	if(wasnotfixed) add_fixed(c);
+	switch_vdesk(current_screen, desk);
+	XRaiseWindow(dpy, c->parent);
+	if(wasnotfixed) remove_fixed(c);
+}
+#endif
+
 void set_docks_visible(ScreenInfo *s, int is_visible) {
 	struct list *iter;
 
@@ -549,6 +560,11 @@ static KeySym keys_to_grab[] = {
 #define NUM_GRABS (int)(sizeof(keys_to_grab) / sizeof(KeySym))
 
 static KeySym alt_keys_to_grab[] = {
+#ifdef VWM
+	KEY_PREVDESK, KEY_NEXTDESK,
+	KEY_DESK1, KEY_DESK2, KEY_DESK3, KEY_DESK4, KEY_DESK5,
+	KEY_DESK6, KEY_DESK7, KEY_DESK8, KEY_DESK9, KEY_DESK0,
+#endif
 	KEY_KILL, KEY_LEFT, KEY_RIGHT, KEY_DOWN, KEY_UP
 };
 #define NUM_ALT_GRABS (int)(sizeof(alt_keys_to_grab) / sizeof(KeySym))
