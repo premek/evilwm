@@ -117,6 +117,9 @@ void sweep(Client *c) {
 	XEvent ev;
 	int old_cx = c->x;
 	int old_cy = c->y;
+	int x1, y1;
+	int old_cw = c->width;
+	int old_ch = c->height;
 
 	if (!grab_pointer(c->screen->root, MouseMask, resize_curs)) return;
 
@@ -127,7 +130,24 @@ void sweep(Client *c) {
 	XGrabServer(dpy);
 	draw_outline(c);
 
-	setmouse(c->window, c->width, c->height);
+	get_mouse_position(&x1, &y1, c->screen->root);
+	x1 -= old_cx;
+	y1 -= old_cy;
+
+	if ((x1 < old_cw/5) && (y1 < old_ch/5)){ // topleft
+		setmouse(c->window, 0, 0);
+		old_cx += old_cw;
+		old_cy += old_ch;
+	} else if ((x1 < old_cw/5) && (y1 > 4*old_ch/5)){ // bottomleft
+		setmouse(c->window, 0, c->height);
+		old_cx += old_cw;
+	} else if ((x1 > 4*old_cw/5) && (y1 < old_ch/5)){ // topright
+		setmouse(c->window, c->width, 0);
+		old_cy += old_ch;
+	} else {
+		setmouse(c->window, c->width, c->height);
+	}
+
 	for (;;) {
 		XMaskEvent(dpy, MouseMask, &ev);
 		switch (ev.type) {
