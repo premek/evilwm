@@ -222,19 +222,20 @@ static void init_geometry(Client *c) {
 	LOG_XLEAVE();
 	c->old_border = attr.border_width;
 	c->oldw = c->oldh = 0;
+	c->oldwFS = c->oldhFS = 0;
 	c->cmap = attr.colormap;
 
 	if ( (eprop = get_property(c->window, xa_evilwm_unmaximised_horz, XA_CARDINAL, &nitems)) ) {
 		if (nitems == 2) {
-			c->oldx = eprop[0];
-			c->oldw = eprop[1];
+			c->oldx = c->oldxFS = eprop[0];
+			c->oldw = c->oldwFS = eprop[1];
 		}
 		XFree(eprop);
 	}
 	if ( (eprop = get_property(c->window, xa_evilwm_unmaximised_vert, XA_CARDINAL, &nitems)) ) {
 		if (nitems == 2) {
-			c->oldy = eprop[0];
-			c->oldh = eprop[1];
+			c->oldy = c->oldyFS = eprop[0];
+			c->oldh = c->oldhFS = eprop[1];
 		}
 		XFree(eprop);
 	}

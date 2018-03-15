@@ -503,7 +503,7 @@ static void handle_client_message(XClientMessageEvent *e) {
 			} else if ((Atom)e->data.l[i] == xa_net_wm_state_maximized_horz) {
 				maximise_hv |= MAXIMISE_HORZ;
 			} else if ((Atom)e->data.l[i] == xa_net_wm_state_fullscreen) {
-				maximise_hv |= MAXIMISE_VERT|MAXIMISE_HORZ;
+				maximise_hv |= MAXIMISE_VERT|MAXIMISE_HORZ|MAXIMISE_FULL;
 			}
 		}
 		if (maximise_hv) {

@@ -88,6 +88,7 @@ typedef struct {
 
 #define MAXIMISE_HORZ   (1<<0)
 #define MAXIMISE_VERT   (1<<1)
+#define MAXIMISE_FULL   (1<<8) // when fullscreen requested via client message
 
 /* some coding shorthand */
 
@@ -153,6 +154,7 @@ struct Client {
 	int             x, y, width, height;
 	int             border;
 	int             oldx, oldy, oldw, oldh;  /* used when maximising */
+	int             oldxFS, oldyFS, oldwFS, oldhFS;  /* used for fullscreen */
 
 	int             min_width, min_height;
 	int             max_width, max_height;

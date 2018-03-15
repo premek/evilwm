@@ -364,21 +364,43 @@ void moveresize(Client *c) {
 }
 
 void maximise_client(Client *c, int action, int hv) {
+	LOG_DEBUG("maximise_client - before\n"
+			"horz:%d\n"
+			"vert:%d\n"
+			"full:%d\n"
+			"remove:%d\n"
+			"add:%d\n"
+			"toggle:%d\n"
+			"oldw:%d\n"
+			"oldh:%d\n"
+			"width:%d\n",
+			"height:%d\n",
+			hv & MAXIMISE_HORZ, hv & MAXIMISE_VERT, hv & MAXIMISE_FULL,
+			action == NET_WM_STATE_REMOVE, action == NET_WM_STATE_ADD, action == NET_WM_STATE_TOGGLE,
+			c->oldw, c->oldh, c->width, c->height);
+
 	if (hv & MAXIMISE_HORZ) {
 		if (c->oldw) {
-			if (action == NET_WM_STATE_REMOVE
-					|| action == NET_WM_STATE_TOGGLE) {
-				c->x = c->oldx;
-				c->width = c->oldw;
+			if (action == NET_WM_STATE_REMOVE || action == NET_WM_STATE_TOGGLE) {
+				c->x = hv & MAXIMISE_FULL ? c->oldxFS : c->oldx;
+				c->width = hv & MAXIMISE_FULL ? c->oldwFS : c->oldw;
 				c->oldw = 0;
+				c->oldwFS = 0;
 				XDeleteProperty(dpy, c->window, xa_evilwm_unmaximised_horz);
 			}
+			if(hv & MAXIMISE_FULL && (action == NET_WM_STATE_ADD || action == NET_WM_STATE_TOGGLE)){
+				c->oldxFS = c->x;
+				c->oldwFS = c->width;
+			}
 		} else {
-			if (action == NET_WM_STATE_ADD
-					|| action == NET_WM_STATE_TOGGLE) {
+			if (action == NET_WM_STATE_ADD || action == NET_WM_STATE_TOGGLE) {
 				unsigned long props[2];
 				c->oldx = c->x;
 				c->oldw = c->width;
+				if(hv & MAXIMISE_FULL){
+					c->oldxFS = c->x;
+					c->oldwFS = c->width;
+				}
 				c->x = 0;
 				c->width = DisplayWidth(dpy, c->screen->screen);
 				props[0] = c->oldx;
@@ -388,22 +410,30 @@ void maximise_client(Client *c, int action, int hv) {
 						(unsigned char *)&props, 2);
 			}
 		}
+
 	}
 	if (hv & MAXIMISE_VERT) {
 		if (c->oldh) {
-			if (action == NET_WM_STATE_REMOVE
-					|| action == NET_WM_STATE_TOGGLE) {
-				c->y = c->oldy;
-				c->height = c->oldh;
+			if (action == NET_WM_STATE_REMOVE || action == NET_WM_STATE_TOGGLE) {
+				c->y = hv & MAXIMISE_FULL ? c->oldyFS : c->oldy;
+				c->height = hv & MAXIMISE_FULL ? c->oldhFS : c->oldh;
 				c->oldh = 0;
+				c->oldhFS = 0;
 				XDeleteProperty(dpy, c->window, xa_evilwm_unmaximised_vert);
 			}
+			if(hv & MAXIMISE_FULL && (action == NET_WM_STATE_ADD || action == NET_WM_STATE_TOGGLE)){
+				c->oldyFS = c->y;
+				c->oldhFS = c->height;
+			}
 		} else {
-			if (action == NET_WM_STATE_ADD
-					|| action == NET_WM_STATE_TOGGLE) {
+			if (action == NET_WM_STATE_ADD || action == NET_WM_STATE_TOGGLE) {
 				unsigned long props[2];
 				c->oldy = c->y;
 				c->oldh = c->height;
+				if(hv & MAXIMISE_FULL){
+					c->oldyFS = c->y;
+					c->oldhFS = c->height;
+				}
 				c->y = 0;
 				c->height = DisplayHeight(dpy, c->screen->screen);
 				props[0] = c->oldy;
