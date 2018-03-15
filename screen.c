@@ -156,7 +156,11 @@ void sweep(Client *c) {
 					break;
 				draw_outline(c); /* clear */
 				XUngrabServer(dpy);
-				recalculate_sweep(c, old_cx, old_cy, ev.xmotion.x, ev.xmotion.y, ev.xmotion.state & altmask);
+				unsigned forceResize = ev.xmotion.state & altmask;
+#ifdef RESIZE_MAXIMIZED
+				forceResize = 1;
+#endif
+				recalculate_sweep(c, old_cx, old_cy, ev.xmotion.x, ev.xmotion.y, forceResize);
 #ifdef INFOBANNER_MOVERESIZE
 				update_info_window(c);
 #endif
@@ -373,7 +377,7 @@ void maximise_client(Client *c, int action, int hv) {
 			"toggle:%d\n"
 			"oldw:%d\n"
 			"oldh:%d\n"
-			"width:%d\n",
+			"width:%d\n"
 			"height:%d\n",
 			hv & MAXIMISE_HORZ, hv & MAXIMISE_VERT, hv & MAXIMISE_FULL,
 			action == NET_WM_STATE_REMOVE, action == NET_WM_STATE_ADD, action == NET_WM_STATE_TOGGLE,

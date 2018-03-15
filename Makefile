@@ -43,6 +43,9 @@ OPT_CPPFLAGS += -DVWM
 # Uncomment to move pointer around on certain actions.
 #OPT_CPPFLAGS += -DWARP_POINTER
 
+# Uncomment to allow resizing maximized windows. Otherwise its allowed only with altmask (shift)
+OPT_CPPFLAGS += -DRESIZE_MAXIMIZED
+
 # Uncomment to use Ctrl+Alt+q instead of Ctrl+Alt+Escape.  Useful for Cygwin.
 #OPT_CPPFLAGS += -DKEY_KILL=XK_q
 
