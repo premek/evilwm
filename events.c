@@ -313,7 +313,7 @@ static void handle_configure_request(XConfigureRequestEvent *e) {
 			discard_enter_events(c);
 		}
 	} else {
-		LOG_XENTER("XConfigureWindow(window=%lx, value_mask=%lx)", (unsigned int)e->window, e->value_mask);
+		LOG_XENTER("XConfigureWindow(window=%lx, value_mask=%lx)", (long unsigned int)e->window, e->value_mask);
 		XConfigureWindow(dpy, e->window, e->value_mask, &wc);
 		LOG_XLEAVE();
 	}
