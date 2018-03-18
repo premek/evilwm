@@ -116,7 +116,7 @@ typedef struct {
 		Window dw; \
 		int di; \
 		unsigned int dui; \
-		XQueryPointer(dpy, root, &dw, &dw, xp, yp, &di, &di, &dui); \
+		XQueryPointer(dpy, root, &dw, &dw, &di, &di, xp, yp, &dui); \
 	} while (0)
 
 #define is_fixed(c) (c->vdesk == VDESK_FIXED)
@@ -301,6 +301,7 @@ void get_window_type(Client *c);
 
 /* screen.c */
 
+void unmaximize_before_drag(Client *c);
 void drag(Client *c);
 void moveresize(Client *c);
 void maximise_client(Client *c, int action, int hv);

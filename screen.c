@@ -296,7 +296,25 @@ static void snap_client(Client *c) {
 		c->y = 0;
 }
 
+void unmaximize_before_drag(Client *c) {
+	int hv = 0;
+	if(c->oldw)   hv |= MAXIMISE_HORZ;
+	if(c->oldh)   hv |= MAXIMISE_VERT;
+	if(c->oldwFS) hv |= MAXIMISE_FULL;
+	if (hv) {
+		maximise_client(c, NET_WM_STATE_REMOVE, hv);
+		int x, y;
+		get_mouse_position(&x, &y, c->window);
+		setmouse(c->window,
+				x < 0 ? 0 : x > c->width  ? c->width  : x,
+				y < 0 ? 0 : y > c->height ? c->height : y);
+	}
+}
+
 void drag(Client *c) {
+
+	unmaximize_before_drag(c);
+
 	XEvent ev;
 	int x1, y1;
 	int old_cx = c->x;
