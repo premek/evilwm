@@ -98,6 +98,8 @@ static void handle_key_event(XKeyEvent *e) {
 			} else {
 				c->x -= 16;
 			}
+			c->oldw = 0;
+			c->oldh = 0;
 			goto move_client;
 		case KEY_DOWN:
 			if (e->state & altmask) {
@@ -106,6 +108,8 @@ static void handle_key_event(XKeyEvent *e) {
 			} else {
 				c->y += 16;
 			}
+			c->oldw = 0;
+			c->oldh = 0;
 			goto move_client;
 		case KEY_UP:
 			if (e->state & altmask) {
@@ -114,6 +118,8 @@ static void handle_key_event(XKeyEvent *e) {
 			} else {
 				c->y -= 16;
 			}
+			c->oldw = 0;
+			c->oldh = 0;
 			goto move_client;
 		case KEY_RIGHT:
 			if (e->state & altmask) {
@@ -122,6 +128,8 @@ static void handle_key_event(XKeyEvent *e) {
 			} else {
 				c->x += 16;
 			}
+			c->oldw = 0;
+			c->oldh = 0;
 			goto move_client;
 		case KEY_TOPLEFT:
 			c->x = c->border;
