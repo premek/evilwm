@@ -395,11 +395,17 @@ void maximise_client(Client *c, int action, int hv) {
 			"toggle:%d\n"
 			"oldw:%d\n"
 			"oldh:%d\n"
+			"oldwFS:%d\n"
+			"oldhFS:%d\n"
 			"width:%d\n"
 			"height:%d\n",
 			hv & MAXIMISE_HORZ, hv & MAXIMISE_VERT, hv & MAXIMISE_FULL,
 			action == NET_WM_STATE_REMOVE, action == NET_WM_STATE_ADD, action == NET_WM_STATE_TOGGLE,
-			c->oldw, c->oldh, c->width, c->height);
+			c->oldw, c->oldh, c->oldwFS, c->oldhFS, c->width, c->height);
+
+	if (hv & MAXIMISE_FULL && !c->oldwFS) {
+		client_raise(c);
+	}
 
 	if (hv & MAXIMISE_HORZ) {
 		if (c->oldw) {
