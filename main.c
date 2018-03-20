@@ -49,6 +49,7 @@ static const char *const def_term[] = { DEF_TERM, NULL };
 char **opt_term = (char **)def_term;
 int          opt_bw = DEF_BW;
 int          opt_snap = 0;
+int opt_no_top_edge_maximize = 0;
 #ifdef SOLIDDRAG
 int          no_solid_drag = 0;  /* use solid drag by default */
 #endif
@@ -96,6 +97,9 @@ static struct xconfig_option evilwm_options[] = {
 	{ XCONFIG_CALL_0,   "fixed",        &set_app_fixed },
 	{ XCONFIG_CALL_0,   "f",            &set_app_fixed },
 	{ XCONFIG_CALL_0,   "s",            &set_app_fixed },
+
+	{ XCONFIG_BOOL,     "notopedgemaximize",  &opt_no_top_edge_maximize },
+
 #endif
 #ifdef SOLIDDRAG
 	{ XCONFIG_BOOL,     "nosoliddrag",  &no_solid_drag },

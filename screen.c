@@ -340,6 +340,11 @@ void drag(Client *c) {
 					draw_outline(c); /* clear */
 					XUngrabServer(dpy);
 				}
+				if (!opt_no_top_edge_maximize && ev.xmotion.y_root == 0) {
+					XUngrabPointer(dpy, CurrentTime);
+					maximise_client(c, NET_WM_STATE_ADD, MAXIMISE_HORZ|MAXIMISE_VERT);
+					return;
+				}
 				c->x = old_cx + (ev.xmotion.x - x1);
 				c->y = old_cy + (ev.xmotion.y - y1);
 				if (opt_snap && !(ev.xmotion.state & altmask))

@@ -244,6 +244,7 @@ extern unsigned int     altmask;
 extern char             **opt_term;
 extern int              opt_bw;
 extern int              opt_snap;
+extern int              opt_no_top_edge_maximize;
 #ifdef SOLIDDRAG
 extern int              no_solid_drag;
 #else
